@@ -1,23 +1,17 @@
 const express = require('express');
-const bodyParser = require('body-parser');
+const path = require('path');
 const app = express();
 
-const adminRoutes = require('./routes/admin');
-const shopRoutes = require('./routes/shop');
+app.use(express.static(path.join(__dirname, 'public')));
 
-
-app.use(bodyParser.urlencoded({ extended: false }));
-
-
-app.use('/admin', adminRoutes);
-app.use('/shop', shopRoutes);
-
-
-app.use((req, res) => {
-    res.status(404).send('<h1>Page Not Found</h1>');
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+app.get('/chat', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'chat.html'));
+});
 
 app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+    console.log('Server is running on http://localhost:3000');
 });

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App - Login</title>
+</head>
+<body>
+    <h2>Login to Chat</h2>
+    <input type="text" id="username" placeholder="Enter your username">
+    <button id="loginButton">Log In</button>
+
+    <script>
+        document.getElementById('loginButton').addEventListener('click', function() {
+            const username = document.getElementById('username').value;
+            if (username) {
+                localStorage.setItem('username', username);
+                window.location.href = '/chat';
+            }
+        });
+    </script>
+</body>
+</html>
