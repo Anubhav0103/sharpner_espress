@@ -1,18 +1,18 @@
 const express = require('express');
 const router = express.Router();
-router.get('/add-product', (req, res) => {
-    res.send(`
-        <form action="/admin/add-product" method="POST">
-            <input type="text" name="productName" placeholder="Product Name">
-            <input type="text" name="productSize" placeholder="Product Size">
-            <button type="submit">Add Product</button>
-        </form>
-    `);
+
+
+const products = [];
+
+
+router.get('/add-product', (req, res, next) => {
+    res.sendFile(path.join(__dirname, '../views', 'add-product.html'));
 });
 
-router.post('/add-product', (req, res) => {
-    console.log(req.body); // Logs the parsed form data to the console
-    res.send('Product added successfully!');
+
+router.post('/add-product', (req, res, next) => {
+    products.push({ title: req.body.title, size: req.body.size });
+    res.redirect('/shop');
 });
 
-module.exports = router;
+module.exports = { router, products };
