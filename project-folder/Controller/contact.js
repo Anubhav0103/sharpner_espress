@@ -1,20 +1,17 @@
+const Product = require('../models/product');
 
-
-const path = require('path');
-
-
-exports.getContactUs = (req, res) => {
-    res.sendFile(path.join(__dirname, '../views', 'contact.html'));
+exports.getAddProduct = (req, res) => {
+    res.sendFile(path.join(__dirname, '../views', 'add-product.html'));
 };
 
-
-exports.postContactUs = (req, res) => {
-    const { name, email } = req.body;
-    console.log(`Name: ${name}, Email: ${email}`);
-    res.redirect('/success');
+exports.postAddProduct = (req, res) => {
+    const product = new Product(req.body.title);
+    product.save();
+    res.redirect('/shop');
 };
 
-
-exports.getSuccess = (req, res) => {
-    res.sendFile(path.join(__dirname, '../views', 'success.html'));
+exports.getProducts = (req, res) => {
+    Product.fetchAll((products) => {
+        res.sendFile(path.join(__dirname, '../views', 'shop.html'), { products });
+    });
 };
