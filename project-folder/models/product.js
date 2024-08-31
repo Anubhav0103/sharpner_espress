@@ -1,6 +1,6 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize');
 const sequelize = require('../util/database');
-const User = require('./user'); // Import User model
+const User = require('./user');
 
 const Product = sequelize.define('Product', {
     id: {
@@ -14,7 +14,7 @@ const Product = sequelize.define('Product', {
         allowNull: false
     },
     price: {
-        type: DataTypes.FLOAT,
+        type: DataTypes.DECIMAL(10, 2),
         allowNull: false
     },
     description: {
@@ -26,5 +26,12 @@ const Product = sequelize.define('Product', {
 
 User.hasMany(Product, { onDelete: 'CASCADE' });
 Product.belongsTo(User);
+
+
+const CartItem = require('./cartItem');
+const Cart = require('./cart');
+
+Cart.belongsToMany(Product, { through: CartItem });
+Product.belongsToMany(Cart, { through: CartItem });
 
 module.exports = Product;

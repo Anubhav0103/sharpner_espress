@@ -1,5 +1,6 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize');
 const sequelize = require('../util/database');
+const Cart = require('./cart');
 
 const User = sequelize.define('User', {
     id: {
@@ -18,5 +19,8 @@ const User = sequelize.define('User', {
         unique: true
     }
 });
+
+User.hasOne(Cart, { onDelete: 'CASCADE' });
+Cart.belongsTo(User);
 
 module.exports = User;
