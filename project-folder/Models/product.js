@@ -16,6 +16,17 @@ const getProductsFromFile = (cb) => {
     });
 };
 
+const writeProductsToFile = (products, cb) => {
+    fs.writeFile(p, JSON.stringify(products), (err) => {
+        if (err) {
+            console.log(err);
+        }
+        if (cb) {
+            cb();
+        }
+    });
+};
+
 module.exports = class Product {
     constructor(id, title, price, description) {
         this.id = id;
@@ -25,12 +36,10 @@ module.exports = class Product {
     }
 
     save() {
-        this.id = Math.random().toString(); 
+        this.id = Math.random().toString();
         getProductsFromFile((products) => {
             products.push(this);
-            fs.writeFile(p, JSON.stringify(products), (err) => {
-                console.log(err);
-            });
+            writeProductsToFile(products);
         });
     }
 
@@ -42,6 +51,13 @@ module.exports = class Product {
         getProductsFromFile((products) => {
             const product = products.find(p => p.id === id);
             cb(product);
+        });
+    }
+
+    static deleteProductById(id, cb) {
+        getProductsFromFile((products) => {
+            const updatedProducts = products.filter(p => p.id !== id);
+            writeProductsToFile(updatedProducts, cb);
         });
     }
 };
