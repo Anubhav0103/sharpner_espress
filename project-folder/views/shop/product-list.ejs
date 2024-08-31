@@ -1,0 +1,10 @@
+<ul>
+    <% prods.forEach(prod => { %>
+        <li>
+            <%= prod.title %> - $<%= prod.price %>
+            <form action="/delete/<%= prod.id %>" method="POST" style="display:inline;">
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+    <% }) %>
+</ul>
